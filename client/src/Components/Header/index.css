@@ -1,0 +1,148 @@
+.header-page {
+  position: relative;
+  min-height: 600px;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-image 0.5s ease-in-out;
+}
+
+.header-page:hover {
+  background-position: center 10%;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.header-page .container {
+  position: relative;
+  z-index: 2;
+}
+
+.masthead-avatar {
+  width: 120px;
+  height: 120px;
+  opacity: 0;
+  animation: avatar 1.2s ease-in-out forwards;
+  animation-delay: 0.5s;
+  margin-bottom: 2rem;
+}
+
+.masthead-heading {
+  font-family: "Roboto", sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+  margin-bottom: 1rem;
+  animation: slideIn 1.5s ease-in-out forwards;
+}
+
+.divider-custom {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 300px;
+  margin: 1.5rem auto;
+}
+
+.divider-custom-line {
+  flex: 1;
+  height: 2px;
+  background: #fff;
+  opacity: 0.7;
+}
+
+.divider-custom-icon {
+  margin: 0 1rem;
+  font-size: 1.5rem;
+  color: #ffd700;
+}
+
+.masthead-subheading {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease, color 0.3s ease;
+  animation: slideIn 1.5s ease-in-out forwards;
+  animation-delay: 0.2s;
+}
+
+.hover-text:hover {
+  transform: scale(1.05);
+  color: #ffd700;
+}
+
+@keyframes avatar {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .header-page {
+    min-height: 450px;
+  }
+
+  .masthead-heading {
+    font-size: 2rem;
+    letter-spacing: 2px;
+  }
+
+  .masthead-subheading {
+    font-size: 1.2rem;
+  }
+
+  .masthead-avatar {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+@media (max-width: 576px) {
+  .header-page {
+    min-height: 350px;
+    background-attachment: scroll;
+  }
+
+  .masthead-heading {
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+  }
+
+  .masthead-subheading {
+    font-size: 1rem;
+  }
+
+  .masthead-avatar {
+    width: 80px;
+    height: 80px;
+  }
+}
