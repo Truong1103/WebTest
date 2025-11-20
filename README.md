@@ -1,21 +1,89 @@
-|     | F01 | F02 | F03 | F04 | F05 | F06 | F07 | F08 | F09 | F10 | F11 | F12 | F13 | F14 | F15 | F16 | F17 |
-|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
-| **F02** |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| **F03** | X |  |  |  |  |  |  |  |  |  |  |  |  |  |  | X |  |
-| **F04** |  |  |  |  | X |  |  |  |  |  |  |  |  |  |  |  |  |
-| **F05** |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| **F06** |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| **F07** |  |  |  |  |  |  |  |  |  | X |  |  |  |  |  |  |  |
-| **F08** |  |  |  |  |  |  |  |  |  |  |  |  |  | X |  |  |  |
-| **F09** |  |  |  |  |  |  |  | X |  |  |  |  |  |  |  |  |  |
-| **F10** |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| **F11** |  |  |  |  |  |  |  |  |  |  |  |  | X |  |  |  |  |
-| **F12** |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| **F13** |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| **F14** |  |  |  |  |  |  |  |  |  |  | X |  |  |  |  |  |  |
-| **F15** |  |  |  |  |  |  | X |  |  |  |  |  |  |  |  |  |  |
-| **F16** |  |  |  |  |  |  |  |  |  |  |  |  |  |  | X |  |  |
-| **F17** |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+<table>
+  <tr>
+    <th>F01</th>
+    <th>F02</th>
+    <th>F03</th>
+    <th>F04</th>
+    <th>F05</th>
+    <th>F06</th>
+    <th>F07</th>
+    <th>F08</th>
+    <th>F09</th>
+    <th>F10</th>
+    <th>F11</th>
+    <th>F12</th>
+    <th>F13</th>
+    <th>F14</th>
+    <th>F15</th>
+    <th>F16</th>
+    <th>F17</th>
+  </tr>
+  <tr>
+    <th>F02</th>
+    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+  </tr>
+  <tr>
+    <th>F03</th>
+    <td>X</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>X</td>
+  </tr>
+  <tr>
+    <th>F04</th>
+    <td></td><td></td><td></td><td></td><td>X</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+  </tr>
+  <tr>
+    <th>F05</th>
+    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+  </tr>
+  <tr>
+    <th>F06</th>
+    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+  </tr>
+  <tr>
+    <th>F07</th>
+    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>X</td><td></td><td></td><td></td><td></td><td></td><td></td>
+  </tr>
+  <tr>
+    <th>F08</th>
+    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>X</td><td></td><td></td>
+  </tr>
+  <tr>
+    <th>F09</th>
+    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>X</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+  </tr>
+  <tr>
+    <th>F10</th>
+    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+  </tr>
+  <tr>
+    <th>F11</th>
+    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>X</td><td></td><td></td><td></td>
+  </tr>
+  <tr>
+    <th>F12</th>
+    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+  </tr>
+  <tr>
+    <th>F13</th>
+    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+  </tr>
+  <tr>
+    <th>F14</th>
+    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>X</td><td></td><td></td><td></td><td></td><td></td>
+  </tr>
+  <tr>
+    <th>F15</th>
+    <td></td><td></td><td></td><td></td><td></td><td></td><td>X</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+  </tr>
+  <tr>
+    <th>F16</th>
+    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>X</td><td></td>
+  </tr>
+  <tr>
+    <th>F17</th>
+    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+  </tr>
+</table>
+
 
 ### Giải thích
 
