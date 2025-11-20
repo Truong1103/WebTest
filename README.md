@@ -1,0 +1,83 @@
+# DANH SÁCH CÁC YÊU CẦU CHỨC NĂNG (FUNCTIONAL REQUIREMENTS)
+
+| TÍNH NĂNG (FEATURE) | YÊU CẦU CHỨC NĂNG (FUNCTIONAL REQUIREMENT) | MÔ TẢ (DESCRIPTION) | ID | PRIORITY |
+|---|---|---|---|---|
+| **Đăng nhập hệ thống** | Chọn vai trò đăng nhập | Hệ thống cho phép người dùng chọn vai trò (Sinh viên, BQL KTX, Phòng Tài chính, QL Phòng) ngay tại màn hình đăng nhập để truy cập đúng giao diện và chức năng tương ứng. | F01 | Cao |
+| **Đăng nhập hệ thống** | Điều hướng theo vai trò | Hệ thống tự động điều hướng người dùng đến dashboard phù hợp với vai trò đã chọn và hiển thị sidebar menu tương ứng. | F02 | Cao |
+| **Dashboard Sinh viên** | Xem tổng quan thủ tục | Hệ thống hiển thị dashboard với thông tin tình trạng thanh toán, trạng thái đơn đăng ký và các nút thao tác nhanh (Xác nhận giữ chỗ, Thanh toán phí, Đặt lịch hẹn) để sinh viên nắm bắt tình hình và thực hiện các bước tiếp theo. | F03 | Trung bình |
+| **Dashboard Sinh viên** | Xem thông báo gần đây | Hệ thống hiển thị danh sách thông báo gần đây với tiêu đề và thời gian để sinh viên cập nhật thông tin quan trọng. | F04 | Thấp |
+| **Đăng ký KTX** | Hiển thị thời gian nhận hồ sơ | Hệ thống hiển thị banner thông báo khung thời gian nhận hồ sơ (ngày bắt đầu - ngày kết thúc) để sinh viên biết thời điểm có thể nộp đơn. | F05 | Cao |
+| **Đăng ký KTX** | Khóa form khi quá hạn | Hệ thống tự động khóa form đăng ký và chỉ hiển thị thông báo cảnh báo khi thời gian nhận hồ sơ đã kết thúc để tránh sinh viên nộp sai đợt. | F06 | Cao |
+| **Đăng ký KTX** | Điền form đăng ký | Hệ thống cung cấp form đăng ký với các trường: Họ và tên, Mã số sinh viên (8 chữ số), Email, Số điện thoại, Loại phòng, Đối tượng ưu tiên, Upload giấy tờ minh chứng, Checkbox cam kết để sinh viên điền thông tin đầy đủ. | F07 | Cao |
+| **Đăng ký KTX** | Kiểm tra tính hợp lệ MSSV | Hệ thống kiểm tra mã số sinh viên phải đúng 8 chữ số và hiển thị lỗi màu đỏ dưới trường nếu không hợp lệ để đảm bảo dữ liệu chính xác. | F08 | Cao |
+| **Đăng ký KTX** | Kiểm tra tính hợp lệ Email | Hệ thống kiểm tra định dạng email và hiển thị lỗi màu đỏ dưới trường nếu không đúng định dạng để đảm bảo thông tin liên hệ hợp lệ. | F09 | Cao |
+| **Đăng ký KTX** | Kiểm tra tính hợp lệ Số điện thoại | Hệ thống kiểm tra số điện thoại phải có 10-11 chữ số và hiển thị lỗi màu đỏ dưới trường nếu không hợp lệ để đảm bảo thông tin liên hệ chính xác. | F10 | Cao |
+| **Đăng ký KTX** | Upload giấy tờ minh chứng | Hệ thống cho phép sinh viên tải lên file PDF, PNG, JPG (tối đa 5MB) để đính kèm giấy tờ minh chứng cho đối tượng ưu tiên. | F11 | Trung bình |
+| **Đăng ký KTX** | Xác nhận đăng ký thành công | Hệ thống hiển thị màn hình xác nhận với icon check xanh, thông báo "Đăng ký thành công!" và lưu ý về thời hạn thanh toán phí giữ chỗ sau khi sinh viên submit form hợp lệ. | F12 | Cao |
+| **Theo dõi trạng thái đơn** | Xem trạng thái đơn đăng ký | Hệ thống hiển thị thẻ trạng thái với màu sắc và icon tương ứng (Chờ duyệt, Đã duyệt, Bị từ chối, Đã xác nhận giữ chỗ, Hoàn tất) để sinh viên biết tình trạng hồ sơ. | F13 | Trung bình |
+| **Theo dõi trạng thái đơn** | Xem chi tiết thông tin đơn | Hệ thống hiển thị bảng thông tin chi tiết đơn đăng ký gồm: Mã số sinh viên, Tên sinh viên, Loại phòng, Ngày nộp đơn để sinh viên xem lại thông tin đã nộp. | F14 | Trung bình |
+| **Theo dõi trạng thái đơn** | Xem lý do từ chối | Hệ thống hiển thị lý do từ chối màu đỏ khi đơn bị từ chối để sinh viên biết nguyên nhân và có thể điều chỉnh. | F15 | Trung bình |
+| **Theo dõi trạng thái đơn** | Chuyển đến xác nhận giữ chỗ | Hệ thống hiển thị nút "Xác nhận giữ chỗ" và thông báo hạn 7 ngày khi đơn ở trạng thái "Đã duyệt" để sinh viên thực hiện bước tiếp theo. | F16 | Cao |
+| **Xác nhận giữ chỗ** | Xem thông tin phí giữ chỗ | Hệ thống hiển thị thông tin chi tiết: Mã đơn, Loại phòng, Phí giữ chỗ/Đầu vào 2.000.000đ, Hạn thanh toán (7 ngày) và cảnh báo tự động hủy nếu quá hạn để sinh viên nắm rõ yêu cầu. | F17 | Cao |
+| **Xác nhận giữ chỗ** | Chọn phương thức thanh toán | Hệ thống cho phép sinh viên chọn phương thức thanh toán (VNPay hoặc MoMo) để thực hiện thanh toán phí giữ chỗ. | F18 | Cao |
+| **Xác nhận giữ chỗ** | Xác thực OTP thanh toán | Hệ thống yêu cầu sinh viên nhập mã OTP 6 số đã gửi đến số điện thoại để xác thực giao dịch thanh toán phí giữ chỗ. | F19 | Cao |
+| **Xác nhận giữ chỗ** | Xác nhận thanh toán thành công | Hệ thống hiển thị màn hình "Thanh toán thành công!" với mã giao dịch, số tiền và các nút "Tải biên lai", "Đặt lịch hẹn" sau khi OTP đúng để sinh viên hoàn tất thủ tục. | F20 | Cao |
+| **Thanh toán phí hàng tháng** | Xem danh sách hóa đơn | Hệ thống hiển thị bảng danh sách hóa đơn với các cột: Mã hóa đơn, Kỳ thanh toán, Số tiền, Hạn chót, Trạng thái (Đã/Chưa thanh toán) để sinh viên theo dõi các khoản phí. | F21 | Cao |
+| **Thanh toán phí hàng tháng** | Xem chi tiết phiếu báo phí | Hệ thống cho phép sinh viên xem và tải phiếu báo phí khi click nút "Xem" để kiểm tra thông tin chi tiết hóa đơn. | F22 | Trung bình |
+| **Thanh toán phí hàng tháng** | Thanh toán hóa đơn | Hệ thống cho phép sinh viên thanh toán hóa đơn chưa thanh toán bằng cách chọn phương thức thanh toán và nhập OTP để hoàn tất giao dịch. | F23 | Cao |
+| **Đặt lịch nhận phòng** | Chọn ngày nhận phòng | Hệ thống cho phép sinh viên chọn ngày nhận phòng từ date picker (chỉ chọn từ hôm nay trở đi) để đặt lịch hẹn vào ở. | F24 | Trung bình |
+| **Đặt lịch nhận phòng** | Chọn khung giờ nhận phòng | Hệ thống hiển thị 6 khung giờ (08:00-09:00, 09:00-10:00, 10:00-11:00, 13:30-14:30, 14:30-15:30, 15:30-16:30) để sinh viên chọn thời gian phù hợp. | F25 | Trung bình |
+| **Đặt lịch nhận phòng** | Nhận mã hẹn | Hệ thống tự động tạo và hiển thị mã hẹn (ví dụ: APT123456) cùng thông tin ngày/giờ đã chọn sau khi sinh viên xác nhận lịch hẹn để xuất trình khi check-in. | F26 | Trung bình |
+| **Dashboard BQL KTX** | Xem thống kê đơn chờ duyệt | Hệ thống hiển thị card thống kê "Đơn chờ duyệt" với số lượng để BQL nắm bắt khối lượng công việc cần xử lý. | F27 | Trung bình |
+| **Dashboard BQL KTX** | Xem thống kê SV sắp vào ở | Hệ thống hiển thị card thống kê "Sinh viên sắp vào ở" với số lượng để BQL chuẩn bị nhân sự tiếp nhận. | F28 | Trung bình |
+| **Dashboard BQL KTX** | Xem danh sách đơn gần đây | Hệ thống hiển thị bảng 4 đơn đăng ký mới nhất với thông tin: Mã đơn, Tên sinh viên, Ngày nộp, Trạng thái để BQL theo dõi công việc. | F29 | Trung bình |
+| **Xử lý đơn đăng ký** | Xem danh sách đơn đăng ký | Hệ thống hiển thị bảng danh sách đầy đủ các đơn đăng ký với các cột: Mã đơn, Tên sinh viên, MSSV, Loại phòng, Ngày nộp, Trạng thái, Hành động để BQL xem và xử lý. | F30 | Cao |
+| **Xử lý đơn đăng ký** | Lọc đơn theo trạng thái | Hệ thống cung cấp dropdown filter để BQL lọc đơn theo trạng thái (Tất cả, Chờ duyệt, Đã duyệt, Bị từ chối, Hoàn tất) để tìm kiếm nhanh. | F31 | Trung bình |
+| **Xử lý đơn đăng ký** | Duyệt đơn đăng ký | Hệ thống cho phép BQL duyệt đơn bằng cách mở modal yêu cầu chọn phòng phân phối (chỉ hiển thị phòng cùng loại và còn trống) và gửi thông báo "Đăng ký thành công" cho sinh viên. | F32 | Cao |
+| **Xử lý đơn đăng ký** | Từ chối đơn đăng ký | Hệ thống cho phép BQL từ chối đơn bằng cách mở modal yêu cầu nhập lý do từ chối (bắt buộc) và gửi thông báo từ chối kèm lý do cho sinh viên. | F33 | Cao |
+| **Xử lý đơn đăng ký** | Hoàn tất thủ tục đăng ký | Hệ thống cho phép BQL đánh dấu "Hoàn tất" cho đơn đã duyệt và gửi thông báo "Thủ tục đăng ký vào KTX hoàn tất" cho sinh viên. | F34 | Trung bình |
+| **Quản lý lịch check-in** | Xem lịch hẹn theo ngày | Hệ thống cho phép BQL chọn ngày và hiển thị danh sách lịch hẹn nhận phòng trong ngày đó với thông tin: Giờ hẹn, Sinh viên, MSSV, Phòng, Mã hẹn, Trạng thái. | F35 | Cao |
+| **Quản lý lịch check-in** | Xem thống kê lịch hẹn | Hệ thống hiển thị 3 card thống kê: "Tổng lịch hẹn hôm nay", "Chờ xử lý", "Đã hoàn tất" để BQL nắm bắt tình hình. | F36 | Cao |
+| **Quản lý lịch check-in** | Tiếp nhận sinh viên | Hệ thống cho phép BQL tiếp nhận sinh viên bằng cách mở modal yêu cầu nhập mã hẹn và MSSV để xác thực, sau đó cập nhật trạng thái "Đã nhận phòng" khi thông tin đúng. | F37 | Cao |
+| **Quản lý lịch check-in** | Đổi lịch hẹn | Hệ thống cho phép BQL đổi lịch hẹn và gửi thông báo trao đổi lịch hẹn cho sinh viên khi cần thiết. | F38 | Thấp |
+| **Cấu hình hệ thống** | Cập nhật thông tin phòng | Hệ thống cho phép BQL cập nhật thông tin phòng (Tòa nhà, Tầng, Số phòng, Loại phòng, Sức chứa, Tình trạng) thông qua form và kiểm tra tính hợp lệ trước khi gửi xét duyệt. | F39 | Trung bình |
+| **Cấu hình hệ thống** | Kiểm tra trùng số phòng | Hệ thống kiểm tra và cảnh báo nếu số phòng đã tồn tại trong hệ thống để tránh trùng lặp dữ liệu. | F40 | Trung bình |
+| **Cấu hình hệ thống** | Xem nhật ký thay đổi | Hệ thống hiển thị panel "Nhật ký thay đổi" với danh sách các thao tác cập nhật phòng (hành động, người thực hiện, thời gian) để truy vết lịch sử. | F41 | Thấp |
+| **Dashboard Tài chính** | Xem tổng thu tháng này | Hệ thống hiển thị card thống kê "Tổng thu tháng này" với số tiền để phòng Tài chính nắm bắt doanh thu. | F42 | Trung bình |
+| **Dashboard Tài chính** | Xem tổng công nợ | Hệ thống hiển thị card thống kê "Tổng công nợ" với số tiền để phòng Tài chính theo dõi các khoản chưa thu. | F43 | Trung bình |
+| **Dashboard Tài chính** | Xem giao dịch gần đây | Hệ thống hiển thị danh sách 3 giao dịch thanh toán gần đây với thông tin: Tên sinh viên, Mã hóa đơn, Ngày, Số tiền để phòng Tài chính theo dõi. | F44 | Trung bình |
+| **Dashboard Tài chính** | Xem danh sách công nợ | Hệ thống hiển thị bảng danh sách công nợ rút gọn với thông tin: Sinh viên, Phòng, Số tiền và nút "Xem tất cả" để phòng Tài chính xem chi tiết. | F45 | Trung bình |
+| **Lập phiếu báo phí** | Chọn kỳ thanh toán | Hệ thống cho phép phòng Tài chính chọn kỳ thanh toán (tháng/năm) từ month picker để tính toán hóa đơn cho kỳ đó. | F46 | Cao |
+| **Lập phiếu báo phí** | Nhận dữ liệu chỉ số điện/nước | Hệ thống hiển thị thông tin "Dữ liệu từ nhân viên KTX" với số lượng sinh viên và kỳ thanh toán để phòng Tài chính xác nhận. | F47 | Cao |
+| **Lập phiếu báo phí** | Tính toán hóa đơn tự động | Hệ thống tự động tính toán phí điện/nước dựa trên chỉ số và số ngày thực tế ở (tỷ lệ số ngày/tổng ngày trong tháng) để tạo hóa đơn nháp. | F48 | Cao |
+| **Lập phiếu báo phí** | Xem hóa đơn nháp | Hệ thống hiển thị bảng hóa đơn nháp với các cột: Sinh viên, Phòng, Điện (kWh + số tiền), Nước (m³ + số tiền), Số ngày, Tổng phí, Trạng thái để phòng Tài chính kiểm tra. | F49 | Cao |
+| **Lập phiếu báo phí** | Phát hành hóa đơn | Hệ thống cho phép phòng Tài chính xác nhận và phát hành hóa đơn sau khi kiểm tra, chuyển trạng thái sang "Đã gửi" và gửi cho sinh viên trong vòng 3 ngày. | F50 | Cao |
+| **Quản lý công nợ** | Lọc danh sách công nợ | Hệ thống cung cấp 3 tab filter: "Tất cả", "Công nợ", "Đã thanh toán" để phòng Tài chính lọc danh sách hóa đơn theo trạng thái. | F51 | Cao |
+| **Quản lý công nợ** | Tìm kiếm sinh viên | Hệ thống cung cấp ô tìm kiếm "Tìm theo tên hoặc MSSV" để phòng Tài chính tìm nhanh hóa đơn của sinh viên cụ thể. | F52 | Trung bình |
+| **Quản lý công nợ** | Xem danh sách công nợ chi tiết | Hệ thống hiển thị bảng danh sách công nợ với các cột: Mã sinh viên, Tên sinh viên, Phòng, Kỳ, Số tiền, Hạn thanh toán, Trạng thái, Hành động để phòng Tài chính theo dõi. | F53 | Cao |
+| **Quản lý công nợ** | Gửi nhắc nhở nợ phí | Hệ thống cho phép phòng Tài chính gửi nhắc nhở nợ phí cho sinh viên chưa thanh toán bằng cách click nút "Gửi nhắc nhở" và hiển thị thông báo xác nhận. | F54 | Cao |
+| **Quản lý công nợ** | Theo dõi giao dịch thanh toán | Hệ thống hiển thị bảng "Theo dõi Thanh toán" với các cột: Mã tham chiếu, Sinh viên, Số tiền, Phương thức, Ngày, Trạng thái để phòng Tài chính đối soát. | F55 | Trung bình |
+| **Báo cáo tài chính** | Xem tổng hợp thu-chi | Hệ thống hiển thị 4 card thống kê: "Tổng Thu", "Tổng Công nợ", "Lợi nhuận", "Tỷ lệ thanh toán" để phòng Tài chính đánh giá tình hình. | F56 | Trung bình |
+| **Báo cáo tài chính** | Xem chi tiết thu | Hệ thống hiển thị bảng "Chi tiết Thu" với các khoản: Phí phòng, Phí điện/nước, Phí khác và Tổng Thu để phòng Tài chính phân tích nguồn thu. | F57 | Trung bình |
+| **Báo cáo tài chính** | Xem chi tiết công nợ | Hệ thống hiển thị bảng "Chi tiết Công nợ" với các nhóm: Quá hạn 1-7 ngày, Quá hạn 8-30 ngày, Quá hạn >30 ngày và Tổng Công nợ để phòng Tài chính đánh giá rủi ro. | F58 | Trung bình |
+| **Báo cáo tài chính** | Xem biểu đồ doanh thu | Hệ thống hiển thị biểu đồ cột doanh thu theo tháng (6 tháng gần nhất) với tooltip hiển thị số tiền khi hover để phòng Tài chính theo dõi xu hướng. | F59 | Trung bình |
+| **Báo cáo tài chính** | Gửi báo cáo cho BQL | Hệ thống cho phép phòng Tài chính gửi báo cáo Thu/Chi (Lợi nhuận KTX) cho Ban Quản lý KTX bằng cách chọn loại báo cáo (cuối tháng/cuối kỳ) và xác nhận gửi. | F60 | Thấp |
+| **Dashboard QL Phòng** | Xem thống kê phòng | Hệ thống hiển thị 4 card thống kê: "Tổng số phòng", "Phòng trống", "Phòng bảo trì", "Chờ kiểm tra" để bộ phận QL Phòng nắm bắt tình hình. | F61 | Thấp |
+| **Dashboard QL Phòng** | Xem danh sách việc cần làm | Hệ thống hiển thị 3 nút công việc: "Cập nhật thông tin phòng", "Kiểm tra phòng SV dọn đi", "Lập báo cáo thống kê" để bộ phận QL Phòng truy cập nhanh. | F62 | Thấp |
+| **Dashboard QL Phòng** | Xem thông báo gần đây | Hệ thống hiển thị danh sách thông báo gần đây với màu sắc và thời gian để bộ phận QL Phòng cập nhật thông tin. | F63 | Thấp |
+| **Kiểm tra phòng khi SV dọn đi** | Xem danh sách SV dọn đi | Hệ thống hiển thị bảng danh sách sinh viên dọn đi với các cột: Sinh viên, MSSV, Phòng, Ngày dọn đi, Hết hạn hợp đồng, Trạng thái, Hành động để bộ phận QL Phòng theo dõi. | F64 | Cao |
+| **Kiểm tra phòng khi SV dọn đi** | Kiểm tra phòng | Hệ thống cho phép bộ phận QL Phòng kiểm tra phòng bằng cách mở modal yêu cầu chọn tình trạng phòng mới (Trống, Sẵn sàng, Bảo trì, Chờ sửa chữa) và ghi nhận hư hỏng nếu có. | F65 | Cao |
+| **Kiểm tra phòng khi SV dọn đi** | Ghi nhận hư hỏng | Hệ thống cho phép bộ phận QL Phòng ghi nhận hư hỏng bằng cách tick checkbox "Có hư hỏng" và nhập mô tả hư hỏng, chi phí sửa chữa để tính toán bồi thường. | F66 | Cao |
+| **Kiểm tra phòng khi SV dọn đi** | Kiểm tra logic trạng thái phòng | Hệ thống kiểm tra và cảnh báo nếu chọn trạng thái "Trống" nhưng có hư hỏng, yêu cầu chọn "Chờ sửa chữa" hoặc "Bảo trì" để đảm bảo logic nghiệp vụ. | F67 | Cao |
+| **Kiểm tra phòng khi SV dọn đi** | Cập nhật tình trạng phòng | Hệ thống cập nhật tình trạng phòng lên hệ thống ngay lập tức sau khi bộ phận QL Phòng submit biên bản kiểm tra để đồng bộ dữ liệu. | F68 | Cao |
+| **Cấu hình thông tin phòng** | Cập nhật thông tin phòng | Hệ thống cho phép bộ phận QL Phòng cập nhật thông tin phòng (Tòa nhà, Tầng, Số phòng, Loại phòng, Sức chứa, Tình trạng) thông qua form và kiểm tra tính hợp lệ. | F69 | Trung bình |
+| **Cấu hình thông tin phòng** | Kiểm tra định dạng tòa nhà | Hệ thống kiểm tra tòa nhà phải đúng định dạng (ví dụ: A1, B2) và hiển thị lỗi nếu không hợp lệ để đảm bảo dữ liệu chuẩn. | F70 | Trung bình |
+| **Cấu hình thông tin phòng** | Kiểm tra sức chứa | Hệ thống kiểm tra sức chứa phòng phải từ 1 đến 10 người và hiển thị lỗi nếu ngoài phạm vi để đảm bảo hợp lý. | F71 | Trung bình |
+| **Cấu hình thông tin phòng** | Kiểm tra xung đột thông tin phòng | Hệ thống kiểm tra và cảnh báo nếu thông tin phòng (tòa/tầng) không khớp với dữ liệu cấu hình hiện hành để tránh mâu thuẫn. | F72 | Trung bình |
+| **Cấu hình thông tin phòng** | Gửi yêu cầu xét duyệt | Hệ thống cho phép bộ phận QL Phòng gửi yêu cầu xét duyệt sau khi kiểm tra tính hợp lệ và hiển thị thông báo xác nhận gửi thành công. | F73 | Trung bình |
+| **Cấu hình thông tin phòng** | Chọn phòng từ danh sách | Hệ thống hiển thị panel "Danh sách phòng" bên phải và cho phép bộ phận QL Phòng click vào phòng để tự động điền dữ liệu vào form chỉnh sửa. | F74 | Thấp |
+| **Báo cáo tình trạng phòng** | Xem thống kê phòng | Hệ thống hiển thị 5 card thống kê: "Tổng số phòng", "Sẵn sàng", "Đang ở", "Bảo trì", "Tỷ lệ lấp đầy" để bộ phận QL Phòng đánh giá. | F75 | Trung bình |
+| **Báo cáo tình trạng phòng** | Lọc phòng | Hệ thống cung cấp 4 bộ lọc: Tòa nhà, Tầng, Loại phòng, Trạng thái để bộ phận QL Phòng tìm kiếm phòng cụ thể. | F76 | Trung bình |
+| **Báo cáo tình trạng phòng** | Xem bảng chi tiết phòng | Hệ thống hiển thị bảng chi tiết phòng với các cột: Số phòng, Tòa, Tầng, Loại phòng, Sức chứa, Đang ở, Trạng thái và tự động cập nhật theo bộ lọc. | F77 | Trung bình |
+| **Báo cáo tình trạng phòng** | Gửi báo cáo cho BQL | Hệ thống cho phép bộ phận QL Phòng gửi báo cáo định kỳ cho Ban Quản lý KTX bằng cách chọn loại báo cáo (cuối tháng/cuối kỳ) và xác nhận gửi. | F78 | Thấp |
+
