@@ -1,182 +1,210 @@
-# MINI-REPORT: Khai thác dữ liệu sinh viên bằng OOP + Pandas + NumPy
+# CHƯƠNG 4. CÀI ĐẶT VÀ TRIỂN KHAI
+
+Chương này trình bày quy trình cài đặt môi trường, cấu hình các thành phần hệ thống và hướng triển khai ứng dụng web **CoffeeGo** (frontend React/Vite, backend Node.js/Express, cơ sở dữ liệu MongoDB, tích hợp dịch vụ bên thứ ba). Nội dung được sắp xếp theo trình tự thực tế từ máy phát triển đến môi trường vận hành, phù hợp với cấu trúc mã nguồn hiện có trong kho dự án.
 
 ---
 
-## 1. Sơ đồ Pipeline xử lý dữ liệu
+## 4.1. Tổng quan kiến trúc triển khai
 
+Hệ thống được tổ chức theo mô hình **client–server**:
+
+- **Tầng giao diện (Presentation)**: ứng dụng **React** được đóng gói bằng **Vite**, giao tiếp với backend qua **HTTP/HTTPS** (REST API) và **Socket.IO** (realtime cho khu vực quản trị).
+- **Tầng xử lý nghiệp vụ (Application)**: **Express** trên nền **Node.js**, tổ chức theo router/controller, xác thực JWT, tích hợp thanh toán VNPay, email (Nodemailer), AI (Google Generative AI / Gemini) và upload ảnh (Cloudinary theo thư viện đi kèm dự án).
+- **Tầng dữ liệu (Data)**: **MongoDB** truy cập qua **Mongoose**.
+
+Sơ đồ triển khai logic: trình duyệt người dùng ↔ máy chủ frontend (tĩnh sau build hoặc dev server) ↔ **API** (`/api/*`) ↔ MongoDB; admin realtime: trình duyệt **Socket.IO client** ↔ cùng origin backend (cổng HTTP/HTTPS của server Node).
+
+---
+
+## 4.2. Yêu cầu môi trường và công cụ
+
+### 4.2.1. Phần cứng và hệ điều hành
+
+- Máy tính đủ cấu hình chạy Node.js (khuyến nghị RAM **≥ 8 GB** khi chạy đồng thời MongoDB cục bộ và hai tiến trình dev).
+- Hệ điều hành: **Windows 10/11**, **macOS**, hoặc **Linux**.
+
+### 4.2.2. Phần mềm bắt buộc
+
+| Thành phần | Phiên bản (tham chiếu dự án) | Ghi chú |
+|------------|------------------------------|--------|
+| Node.js | Khuyến nghị **LTS** (ví dụ 20.x hoặc 22.x) | Chạy backend và frontend |
+| npm hoặc yarn / pnpm | Đi kèm Node | Quản lý dependency (`package.json`) |
+| MongoDB | Tương thích Mongoose 6.x | Cục bộ hoặc **MongoDB Atlas** (cloud) |
+| Git | Bất kỳ bản ổn định | Sao chép mã nguồn |
+
+### 4.2.3. Tài khoản và dịch vụ ngoài (tùy chức năng)
+
+- **SMTP** (Gmail, Outlook, hoặc nhà cung cấp khác): phục vụ gửi email xác thực đăng ký và quên mật khẩu (`Nodemailer`, biến `EMAIL_USER`, `EMAIL_PASS` trong backend).
+- **Google AI (Gemini)**: API key (`GEMINI_API_KEY`) cho chatbot tư vấn.
+- **VNPay (sandbox / production)**: cấu hình mã website, secret key và URL host theo tài liệu VNPay; **nên** đưa toàn bộ tham số nhạy cảm vào biến môi trường khi triển khai thật (**không** lưu trực tiếp trong mã nguồn).
+- **Cloudinary** (nếu sử dụng upload ảnh): có thể cấu hình qua biến `CLOUDINARY_URL` hoặc tương đương theo tài liệu thư viện.
+
+---
+
+## 4.3. Chuẩn bị mã nguồn và cấu trúc thư mục
+
+Sau khi clone hoặc giải nén dự án, cấu trúc chính gồm:
+
+- `backend/`: máy chủ **Express** (`server.js`), cấu hình DB (`config/db.js`), router, controller, model.
+- `frontend/`: ứng dụng **React + Vite**, mã nguồn trong `frontend/src`, client API trong `frontend/src/api` (dùng **axios**).
+
+Toàn bộ dependency backend được khai báo trong `backend/package.json` (ví dụ: `express`, `mongoose`, `socket.io`, `jsonwebtoken`, `dotenv`, `vnpay`, `@google/generative-ai`, …). Frontend khai báo trong `frontend/package.json` (ví dụ: `react`, `vite`, `axios`, `socket.io-client`, `zustand`, `react-router-dom`, …).
+
+---
+
+## 4.4. Cài đặt môi trường phát triển
+
+### 4.4.1. Cài đặt Node.js
+
+Tải bản **LTS** từ trang chủ Node.js và xác nhận:
+
+```text
+node -v
+npm -v
 ```
-MySQL Database (university.students)
-    ↓
-[1] Kết nối & Đọc dữ liệu (pymysql + pandas.read_sql)
-    ↓
-[2] Kiểm tra & Phân tích Missing Values
-    ↓
-[3] Định nghĩa OOP Classes
-    ├─ Student (entity class)
-    ├─ StudentDataProcessor (processing class)
-    └─ StudentReport (reporting class)
-    ↓
-[4] Pipeline xử lý
-    ├─ Thống kê mô tả (describe, groupby)
-    ├─ Phát hiện Outliers (IQR, Z-score)
-    ├─ Top-K analysis
-    └─ Tính toán BMI, Age (vectorized)
-    ↓
-[5] Xuất báo cáo CSV (student_report.csv)
+
+### 4.4.2. Cơ sở dữ liệu MongoDB
+
+**Cách 1 – MongoDB cục bộ:** cài đặt MongoDB Community Edition, khởi động dịch vụ `mongod`, tạo database (ví dụ tên `coffee-go`) và chuỗi kết nối dạng:
+
+```text
+mongodb://127.0.0.1:27017/ten-database
+```
+
+**Cách 2 – MongoDB Atlas:** tạo cluster miễn phí, thêm người dùng cơ sở dữ liệu, mở IP truy cập (hoặc `0.0.0.0/0` cho môi trường thử – chỉ nên dùng khi demo), copy **connection string** có kèm user/password.
+
+Mã nguồn backend kết nối qua `mongoose.connect(process.env.MONGO_URI)` trong `config/db.js`; do đó **bắt buộc** cung cấp `MONGO_URI` trước khi chạy server.
+
+### 4.4.3. Cài đặt dependency
+
+**Backend** (trong thư mục `backend`):
+
+```text
+cd backend
+npm install
+```
+
+**Frontend** (trong thư mục `frontend`):
+
+```text
+cd frontend
+npm install
 ```
 
 ---
 
-## 2. Chiến lược xử lý Missing Values
+## 4.5. Cấu hình biến môi trường backend
 
-**Phương pháp: Median theo nhóm (major)**
+Backend sử dụng thư viện **dotenv**; tạo file **`.env`** trong thư mục `backend` (không commit file này lên kho công khai). Các biến **cần thiết** theo mã nguồn thực tế gồm:
 
-**Lý do:**
-- **Robust với outliers**: Median không bị ảnh hưởng bởi giá trị cực đoan (ví dụ: weight_kg có giá trị 120kg)
-- **Phù hợp theo ngành**: Sinh viên cùng ngành có đặc điểm tương đồng (ví dụ: AI có thể có GPA cao hơn trung bình)
-- **Bảo toàn phân phối**: Giữ nguyên đặc trưng của từng nhóm thay vì làm phẳng dữ liệu
+| Biến | Vai trò |
+|------|--------|
+| `MONGO_URI` | Chuỗi kết nối MongoDB |
+| `JWT_SECRET` | Khóa ký và xác thực JWT (đăng nhập, token xác thực email, reset mật khẩu) |
+| `EMAIL_USER`, `EMAIL_PASS` | Tài khoản SMTP gửi mail (đăng ký, quên mật khẩu) |
+| `GEMINI_API_KEY` | Gọi API Gemini cho module AI chat |
 
-**Công thức áp dụng:**
-```python
-# Ví dụ: Điền GPA thiếu theo median của major
-df['gpa'].fillna(df.groupby('major')['gpa'].transform('median'), inplace=True)
+Biến **`PORT`**: nếu không đặt, server lắng nghe cổng **5000** mặc định (`server.js`: `process.env.PORT || 5000`).
+
+Thanh toán **VNPay** và một số tham số khác nên được chuyển hẳn sang biến môi trường trong phiên bản sản phẩm để đáp ứng yêu cầu bảo mật và kiểm toán cấu hình.
+
+Ví dụ khung file `.env` (giá trị minh họa):
+
+```env
+MONGO_URI=mongodb://127.0.0.1:27017/coffee-go
+JWT_SECRET=chuoi-bi-mat-du-dai-va-ngau-nhien
+EMAIL_USER=email@example.com
+EMAIL_PASS=mat-khau-ung-dung
+GEMINI_API_KEY=your-gemini-api-key
+PORT=5000
 ```
-
-**Kết quả:** 1 giá trị GPA thiếu (Pham Thi D - Business Analytics) → điền bằng median của BA = 3.15
 
 ---
 
-## 3. Công thức tính toán & Vector hóa NumPy
+## 4.6. Cấu hình frontend và địa chỉ API
 
-### BMI (Body Mass Index)
-**Công thức:** `BMI = weight_kg / (height_m)²`
+Client HTTP tập trung tại `frontend/src/api/axiosClient.js`, thiết lập `baseURL` trỏ tới API backend (ví dụ `https://<ten-mien>/api` khi đã triển khai, hoặc `http://localhost:5000/api` khi dev local).
 
-**Implementation với NumPy vector hóa:**
-```python
-df['bmi'] = df['weight_kg'] / ((df['height_cm'] / 100) ** 2)
-```
+**Lưu ý triển khai thực tế:** mã nguồn hiện có thể trỏ tới một host cụ thể (ví dụ dịch vụ cloud). Khi chạy local, cần đổi `baseURL` cho khớp địa chỉ và cổng backend đang chạy, tránh lỗi CORS hoặc gọi nhầm môi trường.
 
-**Lý do dùng vector hóa:**
-- **Hiệu suất**: Xử lý toàn bộ cột cùng lúc thay vì loop từng dòng (nhanh hơn 10-100 lần)
-- **Tận dụng SIMD**: NumPy sử dụng Single Instruction Multiple Data để tính song song
-- **Memory efficient**: Không tạo intermediate objects, tính trực tiếp trên array
-
-### Age (Tuổi)
-**Công thức:** `Age = (today - dob).days / 365.25`
-
-**Implementation:**
-```python
-df['age'] = (datetime.now() - pd.to_datetime(df['dob'])).dt.days // 365
-```
-
-**Lý do vector hóa:** Pandas datetime operations được optimize ở C-level, nhanh hơn Python loop rất nhiều.
+Trình duyệt admin có kết nối **Socket.IO** tới cùng host/cổng backend (trong mã gọi `io("http://localhost:5000")` khi phát triển); khi lên production cần thống nhất **HTTPS/WSS** và URL chính xác.
 
 ---
 
-## 4. Kết quả tổng hợp theo Major
+## 4.7. Khởi chạy ứng dụng ở chế độ phát triển
 
-| Major | Số SV | GPA TB | GPA Min | GPA Max | Credits TB | Credits Tổng |
-|-------|-------|--------|---------|---------|------------|-------------|
-| **AI** | 3 | 3.63 | 3.10 | 3.95 | 90.0 | 270 |
-| **Business Analytics** | 3 | 3.15 | 2.70 | 3.60 | 76.7 | 230 |
-| **Data Science** | 4 | 2.65 | 1.80 | 3.50 | 56.3 | 225 |
+### 4.7.1. Khởi động backend
 
-### Insight 1: AI có GPA cao nhất nhưng độ phân tán lớn
-- **GPA trung bình 3.63** (cao nhất), nhưng có sinh viên GPA 3.95 (Hoang Van E) và 3.10 (Bui Thi H)
-- **Nguyên nhân**: Ngành mới, đòi hỏi cao → sinh viên giỏi rất giỏi, yếu thì khó theo kịp
+Từ thư mục `backend`, sau khi đã có `.env` và MongoDB sẵn sàng:
 
-### Insight 2: Data Science có nhiều sinh viên cần hỗ trợ
-- **4 sinh viên** nhưng **GPA trung bình thấp nhất (2.65)**
-- **2/4 sinh viên** có GPA < 2.5 (Le Van C: 2.1, Pham Van I: 1.8)
-- **Khuyến nghị**: Cần chương trình hỗ trợ học tập cho ngành Data Science
+```text
+node server.js
+```
+
+Hoặc dùng **nodemon** (nếu đã cài devDependency và cấu hình script) để tự khởi động lại khi sửa mã.
+
+Khi thành công, console hiển thị thông báo kết nối MongoDB (theo `connectDB`). API REST được gắn tiền tố **`/api`** (ví dụ `/api/auth`, `/api/products`, …). Socket.IO dùng chung máy chủ HTTP.
+
+### 4.7.2. Khởi động frontend
+
+Từ thư mục `frontend`:
+
+```text
+npm run dev
+```
+
+Vite mặc định phục vụ giao diện trên cổng **5173** (hoặc cổng khác nếu được hiển thị trong terminal). Trình duyệt truy cập URL do Vite in ra để kiểm tra luồng người dùng.
+
+### 4.7.3. Kiểm tra nhanh sau khi khởi chạy
+
+- Đăng ký/đăng nhập, xem sản phẩm, giỏ hàng (nếu test thanh toán online cần cấu hình VNPay sandbox và callback URL đúng).
+- Mở trang quản trị, xác nhận **Socket.IO** cập nhật danh sách khi có thay đổi đơn/đặt bàn (nếu watcher MongoDB hoạt động).
 
 ---
 
-## 5. Outliers & Chiến lược xử lý
+## 4.8. Build sản phẩm và preview frontend
 
-### Phát hiện Outliers:
-- **GPA**: 1 outlier (Pham Van I: 1.8) - Z-score = -2.1
-- **Weight**: 1 outlier (Hoang Van E: 120kg) - IQR method, BMI = 41.52 (béo phì độ III)
+Để tạo bản **production build** của SPA:
 
-### Chiến lược xử lý:
-
-**1. Capping (Winsorization) cho GPA:**
-```python
-# Cap ở mức Q1 - 1.5*IQR và Q3 + 1.5*IQR
-gpa_lower = df['gpa'].quantile(0.25) - 1.5 * IQR
-gpa_upper = df['gpa'].quantile(0.75) + 1.5 * IQR
-df['gpa'] = df['gpa'].clip(lower=gpa_lower, upper=gpa_upper)
+```text
+cd frontend
+npm run build
 ```
-**Lý do**: Giữ lại dữ liệu nhưng giảm ảnh hưởng cực đoan đến thống kê.
 
-**2. Loại bỏ cho Weight (nếu không phải lỗi đo):**
-```python
-# Xóa nếu BMI > 40 (béo phì độ III - cần xác minh)
-df = df[df['bmi'] <= 40]
+Kết quả nằm trong thư mục **`frontend/dist`**. Có thể kiểm tra local:
+
+```text
+npm run preview
 ```
-**Lý do**: BMI > 40 có thể là lỗi nhập liệu hoặc cần can thiệp y tế, không phù hợp phân tích học thuật.
+
+Trên môi trường thật, thư mục `dist` thường được phục vụ bởi **Nginx**, **Apache**, hoặc tích hợp với **CDN**/static hosting; tất cả request `/api/*` được **reverse proxy** sang Node.js.
 
 ---
 
-**Tác giả:** [Tên sinh viên]  
-**Ngày:** [Ngày hiện tại]  
-**Dataset:** 10 sinh viên, 3 ngành học (AI, Data Science, Business Analytics)
-# Abstract
-This report explores a curated student dataset stored in a MySQL schema and processed through an object-oriented Python pipeline that combines Pandas and NumPy. We focus on three broad tasks: auditing data quality, engineering additional health and academic indicators (BMI, age, academic status), and uncovering descriptive insights by major. The resulting analytics support academic advisers with actionable perspectives on performance dispersion, workload distribution, and anomalous records that warrant remediation. Key deliverables include an executable Jupyter notebook, an enriched `student_report.csv`, and the analytical commentary captured in this manuscript.
+## 4.9. Triển khai môi trường vận hành (gợi ý)
 
-# 1 Introduction
-University advisers increasingly require reproducible analytics to monitor the academic progress and well-being of students across majors. To address this need, we extracted the single-table `students` dataset from the `university` schema and implemented an object-oriented pipeline in Python. The pipeline (i) validates the MySQL connection, (ii) inspects schema metadata and missing values, (iii) instantiates domain classes (`Student`, `StudentDataProcessor`, `StudentReport`), and (iv) generates enriched outputs such as BMI, age, academic standing, outlier diagnostics, and top-k rankings. Additional steps include group-wise imputation (median by major), generation of descriptive dashboards, and export of a production-ready CSV for downstream BI tools. This document summarizes the resulting analyses and provides illustrative LATEX-style sections to align with the requested template.
+Dự án có thể triển khai theo một trong các hướng sau (tùy nguồn lực nhà trường / doanh nghiệp):
 
-# 2 Some LaTeX Examples
-The following subsections mirror the canonical writeLaTeX scaffold while embedding the findings from our student analytics project.
+1. **Nền tảng PaaS** (Render, Railway, Heroku, …): đẩy backend (Node), gán biến môi trường trên dashboard; frontend build tĩnh host riêng hoặc cùng dịch vụ static.
+2. **Máy chủ VPS** (Ubuntu): cài Node, PM2 hoặc systemd giữ tiến trình `node server.js`; Nginx SSL (Let’s Encrypt), proxy `/api` và WebSocket.
+3. **Docker** (tùy chọn): đóng gói image backend + image nginx phục vụ `dist`; mạng nội bộ kết nối MongoDB (container hoặc Atlas).
 
-## 2.1 Sections
-Section numbering is handled automatically when authoring in LaTeX. In this Markdown rendition, we mimic the hierarchy to keep the structure clear: Section 1 introduces the motivation and pipeline, Section 2 expands on template-inspired examples, and subsequent items (tables, figures, equations) illustrate how academic narratives can integrate empirical findings. Each subsection ties back to tangible steps in the Python notebook—for example, Section 2.3 mirrors the DataFrame aggregations and Section 2.4 echoes the statistical assumptions used when interpreting GPA distributions.
+Trong mọi trường hợp cần: **HTTPS**, biến môi trường bảo mật trên server, backup định kỳ MongoDB, và giới hạn CORS phù hợp (hiện mã có thể dùng `cors` mở rộng – nên thu hẹp domain khi lên production).
 
-## 2.2 Comments
-Comments within the actual notebook documented every major step—from establishing the PyMySQL connection to exporting `student_report.csv`. Each cell includes concise English annotations (e.g., "Check missing values", "Detect outliers via IQR") to ensure the notebook runs top-to-bottom without ambiguity. This mirrors the intent behind LaTeX comments for collaborative manuscripts, enabling future analysts to replicate the workflow or adapt it for new cohorts with minimal onboarding.
+---
 
-## 2.3 Tables and Figures
-Table 1 summarizes the core quantitative indicators grouped by major, while Figure 1 conceptually represents our pipeline (ingestion → quality checks → OOP processing → analytics → CSV export). In a full LaTeX manuscript, the `table` and `figure` environments would wrap the following artifacts, complete with `\caption`, `\label`, and cross-references for seamless navigation.
-Complementing Table 1, we also computed top-k leaderboards (top 5 GPA, top 3 credits, bottom 3 GPA) to spotlight both high achievers and students in need of intervention. These rankings help advisors prioritize coaching efforts and resource allocation within each major.
+## 4.10. Kiểm thử và nghiệm thu sau triển khai
 
-### Figure 1: Conceptual Pipeline
-1. Connect to MySQL (`pymysql.connect`)
-2. Load table via `pd.read_sql`
-3. Instantiate OOP classes (`Student`, `StudentDataProcessor`, `StudentReport`)
-4. Run analytics (statistics, outliers, top-k, BMI/Age computation)
-5. Export enriched dataset to `student_report.csv`
+- **Kiểm thử chức năng**: lần lượt các luồng đăng ký, đặt hàng, thanh toán (sandbox), đơn offline, đặt bàn, liên hệ, dashboard admin.
+- **Kiểm thử phi chức năng**: thời gian phản hồi API, tải đồng thời nhẹ, kiểm tra log lỗi server.
+- **Bảo mật**: không lộ `JWT_SECRET`, khóa VNPay, mật khẩu email trong tài liệu công khai; xoay khóa định kỳ khi nghi ngờ lộ.
 
-### Table 1: Descriptive Statistics by Major
-| Major               | Students | GPA Mean | GPA Min | GPA Max | Credits Mean | Credits Sum |
-|---------------------|----------|----------|---------|---------|--------------|-------------|
-| Artificial Intelligence | 3        | 3.63     | 3.10    | 3.95    | 90.0         | 270         |
-| Business Analytics      | 3        | 3.15     | 2.70    | 3.60    | 76.7         | 230         |
-| Data Science            | 4        | 2.65     | 1.80    | 3.50    | 56.3         | 225         |
+---
 
-## 2.4 Mathematics
-Let \(X_1, X_2, \dots, X_n\) denote student-level GPA observations within a given major, with \(\mathbb{E}[X_i] = \mu\) and \(\mathrm{Var}(X_i) = \sigma^2 < \infty\). Define the sample mean
-\[
-\bar{X}_n = \frac{1}{n} \sum_{i=1}^{n} X_i,
-\quad
-S_n = \sqrt{n} \left(\bar{X}_n - \mu\right).
-\]
-By the Central Limit Theorem, \(S_n \xrightarrow{d} \mathcal{N}(0, \sigma^2)\) as \(n \to \infty\). In practice, this justifies approximating the distribution of mean GPA across cohorts, enabling probabilistic statements about academic performance thresholds.
+## 4.11. Kết luận chương
 
-## 2.5 Lists
-### Ordered list (progress checkpoints)
-1. Establish database connectivity and confirm schema metadata.
-2. Audit missing values and address them via group-wise medians.
-3. Build OOP abstractions to encapsulate student-level logic.
-4. Run analytics (statistics, outliers, top-k, BMI/Age).
-5. Export final report and document findings.
+Chương 4 đã trình bày trình tự cài đặt **Node.js**, **MongoDB**, dependency hai phần **backend** và **frontend**, cấu hình biến môi trường cho kết nối cơ sở dữ liệu, xác thực, email và AI, cùng các bước chạy phát triển, build và định hướng triển khai vận hành. Việc tuân thủ nguyên tắc tách cấu hình nhạy cảm khỏi mã nguồn và sử dụng HTTPS trong môi trường thật là yêu cầu cơ bản để hệ thống **CoffeeGo** đạt mức an toàn và ổn định cho đồ án tốt nghiệp và triển khai thực tế.
 
-### Bulleted list (key insights)
-- Artificial Intelligence majors maintain the highest average GPA but exhibit the widest spread, signaling both high performers and students needing guidance.
-- Data Science majors show the lowest mean GPA (2.65) with two students below 2.5, indicating an urgent need for academic support programs.
+---
 
-# Conclusion
-The English rendition of the report replicates the requested LaTeX-style sections while highlighting substantive findings from the student analytics pipeline. Advisors can rely on these insights to prioritize interventions, refine curricula, and extend the methodology to additional cohorts. Future work may incorporate predictive modeling (e.g., early warning systems) and longitudinal tracking as additional tables/figures in the same LaTeX-ready structure.
-
-
-
+*Tài liệu phục vụ báo cáo đồ án; có thể bổ sung hình ảnh màn hình (cài Node, chạy server, giao diện Vite, dashboard Atlas) vào phiên bản in nếu giảng viên yêu cầu minh chứng.*
